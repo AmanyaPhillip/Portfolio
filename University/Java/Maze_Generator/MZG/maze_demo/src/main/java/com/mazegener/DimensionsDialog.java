@@ -1,4 +1,4 @@
-package com.mazegenerator;
+package com.mazegener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;

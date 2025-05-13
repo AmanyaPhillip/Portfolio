@@ -1,4 +1,4 @@
-package com.mazegenerator;
+package com.mazegener;
 import javafx.application.Application;
 import javafx.event.*;
 import javafx.geometry.Point2D;
@@ -61,7 +61,7 @@ public class MazeCreator extends Application {
         // Add the "Longest Path From (1,1)" event handler
         mazeMenuItems[2].setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                ArrayList<Point2D> path = model.longestPathFrom(1,1);
+                ArrayList<Point2D> path = model.longestPathfrom(1,1);
                 System.out.println("Path length: " + path.size());
                 for (int i=0; i<path.size(); i++)
                     model.placeVisitAt((int)path.get(i).getX(), (int)path.get(i).getY());
@@ -122,7 +122,7 @@ public class MazeCreator extends Application {
         }
     }
     
-    public static void main(String[] args) {
+public static void main(String[] args) {
         launch(args);
-    }
+}
 }

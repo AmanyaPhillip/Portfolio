@@ -1,5 +1,5 @@
 
-package com.mazegenerator;
+package com.mazegener;
 import javafx.geometry.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -150,11 +150,13 @@ public class Maze {
 
         if (MAxlength==temp1.size()){temp1.add(new Point2D(row,column));removeVisitAt(row,column);return temp1;}
 
-            if (MAxlength==temp2.size()){temp2.add(new Point2D(row,column));removeVisitAt(row,column);return temp2;}
+        if (MAxlength==temp2.size()){temp2.add(new Point2D(row,column));removeVisitAt(row,column);return temp2;}
 
-            if (MAxlength==temp3.size()){temp3.add(new Point2D(row,column));removeVisitAt(row,column);return temp3;}
+        if (MAxlength==temp3.size()){temp3.add(new Point2D(row,column));removeVisitAt(row,column);return temp3;}
 
-            if (MAxlength==temp4.size()){temp4.add(new Point2D(row,column));removeVisitAt(row,column);return temp4;}
+        if (MAxlength==temp4.size()){temp4.add(new Point2D(row,column));removeVisitAt(row,column);return temp4;}
+    
+        return path;
      }
 
      
