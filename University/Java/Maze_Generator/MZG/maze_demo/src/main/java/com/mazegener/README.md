@@ -1,6 +1,6 @@
 # Maze Generator
 
-This project is a simple maze generator application built using Java and JavaFX. It allows users to create mazes, adjust their dimensions, and visualize the longest paths within the maze. The application provides an interactive graphical interface for generating and exploring mazes.
+This project is a simple maze generator application built using Java and JavaFX. It allows users to create mazes, adjust their dimensions, and visualize the longest paths within the maze. The application provides an interactive graphical interface for generating mazes.
 
 ## Features
 
