@@ -1,0 +1,74 @@
+# Taxi Dispatch Simulation
+
+This project is a Java-based simulation of a taxi dispatching system. It uses JavaFX for the graphical user interface (GUI) and provides a simulation of taxi dispatching, client requests, and statistics tracking.
+
+## Features
+
+- **Taxi Dispatching**: Simulates the dispatching of taxis to client requests based on availability and location.
+- **Client Requests**: Generates random client requests for taxi pickups and drop-offs.
+- **Statistics Tracking**: Tracks and displays dispatch statistics, including the number of trips between different areas.
+- **Simulation Control**: Allows starting and stopping the simulation, as well as adjusting the rate of client requests.
+- **Graphical User Interface**: Provides a user-friendly interface using JavaFX.
+
+## Project Structure
+
+taxidispatcher/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── com/
+│   │   │   │   └── taxidispatch/
+│   │   │   │       ├── ClientRequest.java
+│   │   │   │       ├── DispatchCenter.java
+│   │   │   │       ├── DispatchStatsDialog.java
+│   │   │   │       ├── Taxi.java
+│   │   │   │       └── TaxiServiceDispatchingSystem.java
+│   │   └── resources/
+│   │       └── com/
+│   │           └── taxidispatch/
+│   │               ├── primary.fxml
+│   │               └── secondary.fxml
+
+### Key Files
+
+- **TaxiServiceDispatchingSystem.java**: The main class that initializes and runs the simulation.
+- **DispatchCenter.java**: Manages taxis and handles dispatching logic.
+- **Taxi.java**: Represents a taxi with attributes like availability and destination.
+- **ClientRequest.java**: Represents a client request with pickup and drop-off locations.
+- **DispatchStatsDialog.java**: Displays dispatch statistics in a dialog.
+
+## Prerequisites
+
+- Java 11 or higher
+- Maven
+- JavaFX 13 or higher
+
+## How to Run
+
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd taxidispatcher
+
+2. Build the project using Maven:
+    mvn clean install
+
+3. Run the application:
+    mvn javafx:run
+
+## Usage
+Start Simulation: Use the "Start Clients Coming" option in the "Simulation" menu to begin generating client requests.
+
+Stop Simulation: Use the "Stop Clients From Coming" option to pause client generation.
+
+Adjust Simulation Rate: Use the "Simulation Rate ..." option in the "Settings" menu to set the rate of client requests.
+
+View Statistics: Use the "Statistics" option in the "Admin" menu to view dispatch statistics.
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Acknowledgments
+
+JavaFX for providing the GUI framework.
+OpenJFX Maven Plugin for simplifying JavaFX application development.
