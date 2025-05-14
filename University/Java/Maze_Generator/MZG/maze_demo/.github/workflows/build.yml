@@ -33,8 +33,5 @@ jobs:
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run:
-          cd University/Java/Maze_Generator/MZG/maze_demo
-          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AmanyaPhillip_Portfolio
-      - name: Debug Directory
-        run: pwd && ls -R
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AmanyaPhillip_Portfolio
+        working-directory: University/Java/Maze_Generator/MZG/maze_demo
