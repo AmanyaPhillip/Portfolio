@@ -36,3 +36,5 @@ jobs:
         run:
           cd University/Java/Maze_Generator/MZG/maze_demo
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AmanyaPhillip_Portfolio
+      - name: Debug Directory
+        run: pwd && ls -R
