@@ -31,10 +31,11 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Change to project directory
-        run: cd University\Java\Maze_Generator\MZG\maze_demo
+        run: cd University/Java/Maze_Generator/MZG/maze_demo
       - name: Build and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B -f University/Java/Maze_Generator/MZG/maze_demo/pom.xml verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AmanyaPhillip_Portfolio
-      - name: Debug directory
-        run: ls -la
+        run:
+          cd University/Java/Maze_Generator/MZG/maze_demo
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AmanyaPhillip_Portfolio
+
