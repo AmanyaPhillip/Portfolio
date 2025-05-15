@@ -65,6 +65,14 @@ Adjust Simulation Rate: Use the "Simulation Rate ..." option in the "Settings" m
 
 View Statistics: Use the "Statistics" option in the "Admin" menu to view dispatch statistics.
 
+## Future Enhancements 
+Here are some potential improvements that could be made to the project:
+
+1. Dynamic Area Management: Allow users to add or remove areas dynamically.
+2. Improved Dispatch Logic: Implement more advanced algorithms for taxi dispatching, such as considering traffic conditions or prioritizing certain requests.
+3. Real-Time Map Integration: Integrate a map to visualize taxi movements and client requests.
+4.Logging and Reporting: Add functionality to log dispatch events and generate detailed reports.
+
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
 
