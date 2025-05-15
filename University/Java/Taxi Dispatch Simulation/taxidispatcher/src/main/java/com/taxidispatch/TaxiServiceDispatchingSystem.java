@@ -1,6 +1,6 @@
 package com.taxidispatch;
+
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -18,37 +18,39 @@ import javafx.util.Duration;
 import java.util.*;
 
 public class TaxiServiceDispatchingSystem extends Application {
-    ListView<ClientRequest>     incomingList;
-    ListView<Taxi>              enRouteList;
-    ListView<Taxi>[]            areaLists;
-    Button                      dispatchButton;
+    // GUI components
+    ListView<ClientRequest> incomingList; // ListView for incoming client requests
+    ListView<Taxi> enRouteList; // ListView for taxis en route
+    ListView<Taxi>[] areaLists; // ListViews for taxis in different areas
+    Button dispatchButton; // Button to dispatch taxis
 
-    // The model
-    private DispatchCenter              dispatchCenter;
-    private ArrayList<ClientRequest>    incomingQueue;
-    private Timeline                    incomingClientTimer;
-    private Timeline                    updateTimer;
-    private int                         clientsPerSecond;
+    // Model components
+    private DispatchCenter dispatchCenter; // Central dispatch system
+    private ArrayList<ClientRequest> incomingQueue; // Queue of incoming client requests
+    private Timeline incomingClientTimer; // Timer to generate new client requests
+    private Timeline updateTimer; // Timer to update the GUI
+    private int clientsPerSecond; // Rate of client request generation
 
     public void start(Stage primaryStage) {
-        // Create a dispatch center for the model
+        // Initialize the dispatch center and incoming queue
         dispatchCenter = new DispatchCenter();
-        incomingQueue = new ArrayList<ClientRequest>();
+        incomingQueue = new ArrayList<>();
 
         VBox aPane = new VBox();
 
+        // Create a grid layout for the GUI
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(10, 10, 10, 10));
 
-        // Add some labels
+        // Add labels for the areas
         Label label = new Label("Incoming");
         grid.setHalignment(label, HPos.LEFT);
         grid.add(label, 0, 0, 1, 1);
-        for (int i=0; i<DispatchCenter.AREA_NAMES.length; i++) {
+        for (int i = 0; i < DispatchCenter.AREA_NAMES.length; i++) {
             label = new Label(DispatchCenter.AREA_NAMES[i]);
-            grid.add(label, 2+i, 0, 1, 1);
+            grid.add(label, 2 + i, 0, 1, 1);
             label.setMinHeight(20);
             label.setMinWidth(50);
         }
@@ -58,150 +60,124 @@ public class TaxiServiceDispatchingSystem extends Application {
         grid.add(dispatchButton, 0, 3, 1, 1);
         dispatchButton.setMinHeight(30);
         dispatchButton.setMinWidth(100);
-        dispatchButton.setPrefWidth(100);
-        dispatchButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                handleTaxiDispatch();
-            }});
+        dispatchButton.setOnAction(event -> handleTaxiDispatch());
 
-        // Add the ListViews
-        incomingList = new ListView();
+        // Add ListViews for incoming requests and area taxis
+        incomingList = new ListView<>();
         incomingList.setPrefHeight(400);
-        incomingList.setMinWidth(150);
-        incomingList.setPrefWidth(Integer.MAX_VALUE);
         grid.add(incomingList, 0, 1, 1, 1);
 
         areaLists = new ListView[6];
-        for (int i=0; i<areaLists.length; i++) {
-            areaLists[i] = new ListView();
+        for (int i = 0; i < areaLists.length; i++) {
+            areaLists[i] = new ListView<>();
             areaLists[i].setPrefHeight(400);
-            areaLists[i].setMinWidth(100);
-            areaLists[i].setPrefWidth(Integer.MAX_VALUE);
-            grid.add(areaLists[i], 2+i, 1, 1, 1);
+            grid.add(areaLists[i], 2 + i, 1, 1, 1);
         }
-
 
         // Create the Simulation menu
         Menu simMenu = new Menu("Simula_tion");
-        MenuItem  start = new MenuItem("Start Clients Coming");
-        MenuItem  stop = new MenuItem("Stop Clients From Coming");
+        MenuItem start = new MenuItem("Start Clients Coming");
+        MenuItem stop = new MenuItem("Stop Clients From Coming");
         simMenu.getItems().addAll(start, stop);
 
-
-        // Create the timer for causing new clients to appear
-        clientsPerSecond = 2;  /// Default is to have them come twice per second
-        incomingClientTimer = new Timeline(new KeyFrame(Duration.millis(1000), new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                // Pick a random area that the client will need a taxi from and add to the queue
-                incomingQueue.add(new ClientRequest(DispatchCenter.AREA_NAMES[(int)(Math.random()*6)],DispatchCenter.AREA_NAMES[(int)(Math.random()*6)]));
-                update();
-            }
+        // Timer to generate new client requests
+        clientsPerSecond = 2; // Default rate: 2 clients per second
+        incomingClientTimer = new Timeline(new KeyFrame(Duration.millis(1000), event -> {
+            // Generate a random client request
+            incomingQueue.add(new ClientRequest(
+                DispatchCenter.AREA_NAMES[(int) (Math.random() * 6)],
+                DispatchCenter.AREA_NAMES[(int) (Math.random() * 6)]
+            ));
+            update();
         }));
         incomingClientTimer.setCycleCount(Timeline.INDEFINITE);
         incomingClientTimer.setRate(clientsPerSecond);
 
-        start.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                incomingClientTimer.play();
-            }});
-        stop.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                incomingClientTimer.stop();
-            }});
+        // Start and stop actions for the simulation
+        start.setOnAction(event -> incomingClientTimer.play());
+        stop.setOnAction(event -> incomingClientTimer.stop());
 
-        // Create the timer for causing updates in the ListViews (updating at 10 times per second)
-        updateTimer = new Timeline(new KeyFrame(Duration.millis(500), new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                // Update all busy taxis by decreasing their estimate time (do this once every second)
-                for (Taxi x: dispatchCenter.getBusyTaxis()) {
-                    x.decreaseEstimatedTimeToDest();
-                    if (x.getEstimatedTimeToDest() == 0)
-                        x.setAvailable(true);
-                }
-                update();
+        // Timer to update the GUI and manage taxis
+        updateTimer = new Timeline(new KeyFrame(Duration.millis(500), event -> {
+            // Update busy taxis and make them available if they reach their destination
+            for (Taxi x : dispatchCenter.getBusyTaxis()) {
+                x.decreaseEstimatedTimeToDest();
+                if (x.getEstimatedTimeToDest() == 0)
+                    x.setAvailable(true);
             }
+            update();
         }));
         updateTimer.setCycleCount(Timeline.INDEFINITE);
         updateTimer.play();
 
         // Create the Settings menu
         Menu settingsMenu = new Menu("_Settings");
-        MenuItem  arrivalRate = new MenuItem("Simulation Rate ...");
+        MenuItem arrivalRate = new MenuItem("Simulation Rate ...");
         settingsMenu.getItems().addAll(arrivalRate);
-        arrivalRate.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                int input = 0;
-                try {
-                    // Bring up a TextInputDialog box
-                    TextInputDialog dialog = new TextInputDialog();
-                    dialog.setTitle("Input Required");
-                    dialog.setHeaderText(null);
-                    dialog.setContentText("Iterations Per Second (1 to 20)");
-                    dialog.setResult("" + clientsPerSecond);
-                    Optional<String> result = dialog.showAndWait();
-                    if (result.isPresent()) {
-                        System.out.println(dialog.getResult());
-                        input = Integer.parseInt(dialog.getResult());
-                        if ((input > 0) && (input <= 20)) {
-                            clientsPerSecond = input;
-                            incomingClientTimer.setRate(clientsPerSecond);
-                        } else {System.out.println("ERROR");
-                            throw new Exception();
-                        }
+        arrivalRate.setOnAction(event -> {
+            // Allow the user to set the rate of client requests
+            try {
+                TextInputDialog dialog = new TextInputDialog();
+                dialog.setTitle("Input Required");
+                dialog.setContentText("Iterations Per Second (1 to 20)");
+                dialog.setResult("" + clientsPerSecond);
+                Optional<String> result = dialog.showAndWait();
+                if (result.isPresent()) {
+                    int input = Integer.parseInt(dialog.getResult());
+                    if (input > 0 && input <= 20) {
+                        clientsPerSecond = input;
+                        incomingClientTimer.setRate(clientsPerSecond);
+                    } else {
+                        throw new Exception();
                     }
-                } catch(Exception ex) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Error");
-                    alert.setHeaderText("Please choose a number from 1 to 20");
-                    alert.showAndWait();
                 }
-            }});
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Please choose a number from 1 to 20");
+                alert.showAndWait();
+            }
+        });
 
         // Create the Admin menu
         Menu adminMenu = new Menu("_Admin");
-        MenuItem  stats = new MenuItem("Statistics");
+        MenuItem stats = new MenuItem("Statistics");
         adminMenu.getItems().addAll(stats);
-        stats.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                new DispatchStatsDialog(null, dispatchCenter.getStats()).showAndWait();
-            }});
+        stats.setOnAction(event -> new DispatchStatsDialog(null, dispatchCenter.getStats()).showAndWait());
 
         // Add the menubar
         MenuBar menuBar = new MenuBar();
         aPane.getChildren().addAll(menuBar, grid);
         menuBar.getMenus().addAll(simMenu, settingsMenu, adminMenu);
 
-        // Set the window size
+        // Set the window size and show the stage
         primaryStage.setTitle("Taxi Service Dispatching System");
-        primaryStage.setScene(new Scene(aPane, 850,400));
+        primaryStage.setScene(new Scene(aPane, 850, 400));
         primaryStage.show();
 
         update();
     }
 
-
-    // Update the look of the components
+    // Update the GUI components
     private void update() {
-        for (int i=0; i<areaLists.length; i++) {
-            areaLists[i].setItems(FXCollections.observableArrayList(new ArrayList<Taxi>(dispatchCenter.getAreas().get(DispatchCenter.AREA_NAMES[i]))));
+        for (int i = 0; i < areaLists.length; i++) {
+            areaLists[i].setItems(FXCollections.observableArrayList(
+                new ArrayList<>(dispatchCenter.getAreas().get(DispatchCenter.AREA_NAMES[i]))
+            ));
             areaLists[i].refresh();
         }
-        incomingList.setItems(FXCollections.observableArrayList(new ArrayList<ClientRequest>(incomingQueue)));
+        incomingList.setItems(FXCollections.observableArrayList(new ArrayList<>(incomingQueue)));
         incomingList.refresh();
     }
 
-    // Handle a dispatch
+    // Handle the dispatch of a taxi
     private void handleTaxiDispatch() {
-        // Get the next client, unless there are no more
         if (incomingQueue.isEmpty())
             return;
         ClientRequest c = incomingQueue.get(0);
-
-        // Send a taxi for this request, if there is one available
         Taxi t = dispatchCenter.sendTaxiForRequest(c);
         if (t != null)
             incomingQueue.remove(0);
-
         update();
     }
 
