@@ -1,0 +1,72 @@
+# Local Air Hockey
+
+A real-time multiplayer air hockey game and chat application built with Node.js, Socket.IO, and Matter.js physics engine.
+
+## Features
+
+- Real-time air hockey gameplay with physics simulation
+- Two-player paddle control (Blue: W/A/S/D, Red: I/J/K/L)
+- Paddle control assignment and release
+- Live chat between connected users
+- Score tracking and goal detection
+
+## Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v10 or higher recommended)
+- npm (comes with Node.js)
+
+### Installation
+
+1. Clone or download this repository.
+2. Open a terminal in the project directory.
+3. Install dependencies:
+
+   ```sh
+   npm install
+   ```
+
+### Running the Server
+
+Start the server with:
+
+```sh
+node Server.js
+```
+
+The server will start on port 3000 by default.
+
+### Playing the Game
+
+1. Open your browser and go to [http://localhost:3000/chatClient.html](http://localhost:3000/chatClient.html)
+2. Enter your name in the chat input to join.
+3. To control a paddle:
+   - Press `1` for Blue paddle (W/A/S/D to move)
+   - Press `2` for Red paddle (I/J/K/L to move)
+   - Press `0` to release paddle control
+4. Chat with other users in the text area.
+
+## Project Structure
+
+```
+Server.js                # Main server file (Node.js + Socket.IO + Matter.js)
+package.json             # Project dependencies
+www/
+  airhockey.png          # Air hockey table image
+  canvas.js              # Client-side game and chat logic
+  chatClient.html        # Main client HTML page
+```
+
+## Dependencies
+
+- [socket.io](https://socket.io/)
+- [matter-js](https://brm.io/matter-js/)
+
+## License
+
+ISC
+
+---
+
+Enjoy playing and chatting!
