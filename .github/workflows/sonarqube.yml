@@ -34,5 +34,5 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          cd University/Java/Maze_Generator/MZG/maze_demo  # Navigate to the directory containing pom.xml
+          cd Software Development/Java/Maze_Generator/MZG/maze_demo  # Navigate to the directory containing pom.xml
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AmanyaPhillip_Portfolio
