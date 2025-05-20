@@ -1,0 +1,60 @@
+# BankApp
+
+A secure, full-stack web banking application built with Spring Boot, Thymeleaf, and MySQL.
+
+## Features
+
+- User registration and authentication (Spring Security)
+- Dashboard with account details and balance
+- Deposit, withdraw, and transfer funds between users
+- Transaction history with detailed records
+- Responsive UI with Bootstrap and Thymeleaf templates
+- Secure password storage (BCrypt)
+- MySQL database integration with JPA/Hibernate
+
+## Technologies
+
+- Java 17
+- Spring Boot 3
+- Spring Security
+- Spring Data JPA
+- Thymeleaf
+- MySQL
+- Bootstrap 4
+
+## Getting Started
+
+### Prerequisites
+
+- Java 17+
+- Maven
+- MySQL
+
+### Setup
+
+1. **Clone the repository**
+   ```sh
+   git clone <your-repo-url>
+   cd BankApp
+   ```
+
+2. **Configure the database**
+
+   - Create the database:
+     ```sql
+     CREATE DATABASE bankappdb;
+     ```
+   - Update `src/main/resources/application.properties` with your MySQL credentials if needed.
+
+3. **Build and run the application**
+   ```sh
+   ./mvnw spring-boot:run
+   ```
+
+4. **Access the app**
+
+   - Visit [http://localhost:8080/login](http://localhost:8080/login)
+
+## License
+
+This project is for educational purposes.
