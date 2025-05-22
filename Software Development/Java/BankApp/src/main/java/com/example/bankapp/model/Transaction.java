@@ -10,24 +10,29 @@ import jakarta.persistence.*;
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private BigDecimal amount;
+    private Long id; // Unique identifier for the transaction
+
+    private BigDecimal amount; // Transaction amount
     private String type; // "DEPOSIT" or "WITHDRAWAL"
-    private LocalDateTime timestamp;
+    private LocalDateTime timestamp; // Date and time of the transaction
 
     @ManyToOne
     @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+    private Account account; // The account associated with this transaction
 
+    // Default constructor
     public Transaction() {
     }
 
+    // Parameterized constructor
     public Transaction(BigDecimal amount, String type, LocalDateTime timestamp, Account account) {
         this.amount = amount;
         this.type = type;
         this.timestamp = timestamp;
         this.account = account;
     }
+
+    // Getters and setters for all fields
 
     public Long getId() {
         return id;
@@ -69,5 +74,4 @@ public class Transaction {
         this.account = account;
     }
     
-
 }

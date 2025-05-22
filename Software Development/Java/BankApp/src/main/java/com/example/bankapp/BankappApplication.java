@@ -3,11 +3,13 @@ package com.example.bankapp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+// Main application class for the BankApp Spring Boot project
+@SpringBootApplication // Enables auto-configuration and component scanning
 public class BankappApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BankappApplication.class, args);
-	}
+    // Entry point of the Spring Boot application
+    public static void main(String[] args) {
+        SpringApplication.run(BankappApplication.class, args);
+    }
 
 }

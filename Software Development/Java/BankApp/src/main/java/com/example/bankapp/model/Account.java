@@ -14,20 +14,23 @@ import jakarta.persistence.*;
 public class Account implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; 
-    private String username;
-    private String password;
-    private BigDecimal balance;
+    private Long id; // Unique identifier for the account
+
+    private String username; // Username for login
+    private String password; // Encrypted password
+    private BigDecimal balance; // Current account balance
     
     @OneToMany(mappedBy = "account")
-    private List<Transaction> transactions;
+    private List<Transaction> transactions; // List of transactions associated with this account
 
     @Transient
-    private Collection<? extends GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities; // User roles/authorities (not persisted)
 
+    // Default constructor
     public Account() {
     }
 
+    // Parameterized constructor
     public Account(String username, String password, BigDecimal balance, List<Transaction> transactions,
             Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
@@ -36,6 +39,8 @@ public class Account implements UserDetails {
         this.transactions = transactions;
         this.authorities = authorities;
     }
+
+    // Getters and setters for all fields
 
     public Long getId() {
         return id;
@@ -85,8 +90,6 @@ public class Account implements UserDetails {
         this.authorities = authorities;
     }
 
-    
-
-    
+    // Additional methods required by UserDetails can be implemented here if needed
 
 }
