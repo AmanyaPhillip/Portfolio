@@ -46,3 +46,5 @@ A [SonarQube workflow](.github/workflows/sonarqube.yml) runs static analysis on 
 ## License
 
 See [LICENSE](LICENSE).
+
+![Release](https://img.shields.io/github/v/release/AmanyaPhillip/Portfolio)
